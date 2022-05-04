@@ -1,29 +1,33 @@
 <app-product (productAdded)="productReceived($event)"></app-product>
 
-<br>
+<br />
 <table>
-    <tr>
+  <tr>
     <th>Id</th>
     <th>Product</th>
     <th>Price</th>
     <th>Quantity</th>
     <th>Subtotal</th>
-</tr>
-<tr *ngFor="let product of products">
-    <td>{{product.id}}</td>
-    <td>{{product.name}}</td>
-    <td>{{product.price}}</td>  
-    <td><input type="number" name="quantity"></td>  
-    
-</tr>
+  </tr>
+  <tr *ngFor="let product of products">
+    <td>{{ product.id }}</td>
+    <td>{{ product.name }}</td>
+    <td>{{ product.price }}</td>
+    <td>
+      <form #qty="ngForm" (ngSubmit)="updateProductQty(product, qty.value)">
+        <input type="number" name="productQty" #productQty ngModel />
+        <button type="submit">+</button>
+      </form>
+    </td>
+  </tr>
 </table>
-<br>
+<br />
 <app-order (orderCreated)="orderReceived($event)"></app-order>
 
-<ul *ngFor="let orderDetail of orderDetails">
-    <li>Data Below</li>
-    <li>{{orderDetail.id}}</li>
-    <li>{{orderDetail.product}}</li>
-    <li>{{orderDetail.productQty}}</li>
-    <li>{{orderDetail.totalPrice}}</li>
+<label>Data Below</label>
+<ul *ngFor="let orderDetail of orderDetails">  
+  <li>{{ orderDetail.id }}</li>
+  <li>{{ orderDetail.product.name }}</li>
+  <li>{{ orderDetail.productQty }}</li>
+  <li>{{ orderDetail.totalPrice }}</li>
 </ul>

@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Order } from '../model/order';
 import { OrderProduct } from '../model/order-product';
 import { Product } from '../model/product';
+import { ProductComponent } from '../product/product.component';
 import { OrderService } from '../service/order.service';
 
 @Component({
@@ -21,25 +22,35 @@ export class OrderProductComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  productReceived(data: Product){
-    console.log(data);
-    this.products.push(data);    
+  productReceived(data: Product){    
+    this.products.push(data);
+    let orderDetail = new OrderProduct();
+    orderDetail.product = data;
+    orderDetail.productQty = 1;
+    this.orderDetails.push(orderDetail);    
   }
 
-  orderReceived(data: Order){
-    console.log(data);    
+  orderReceived(orderData: Order){
+    console.log(orderData);    
     for(let i = 0; i<this.products.length; i++){
-      let orderDetail = new OrderProduct(1,data,this.products[i],1,50);
-      this.orderService.addProductsToOrder(data.id, this.products[i].id, 1).subscribe(x => {
+      let orderDetail = new OrderProduct();
+      orderDetail.order = orderData;
+      orderDetail.product = this.products[i];
+      
+      this.orderService.addProductsToOrder(orderData.id, this.products[i].id, 1).subscribe(x => {
         this.orderDetails.push(x); 
-        console.log(x);
+        console.log("orderReceived OrderProduct: " + x);
           
       });         
-    }
+    }    
+  }
+
+  updateProductQty(product: Product, quantity: any){
+    this.orderDetails.find(x=>{
+      x.product == product;
+      x.productQty = quantity.productQty;
+    })
   }
 
 
-  // addProduct(product: Product){
-  //   this.productAdded.emit(product);
-  // }
 }

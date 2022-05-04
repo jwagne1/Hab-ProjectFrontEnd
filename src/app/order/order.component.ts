@@ -12,7 +12,7 @@ import { OrderService } from '../service/order.service';
 export class OrderComponent implements OnInit {
   @Output() orderCreated = new EventEmitter<Order>();
 
-  order!: Order;
+  order: Order = new Order();
 
   constructor(private orderService: OrderService) { }
 
@@ -20,17 +20,12 @@ export class OrderComponent implements OnInit {
   }
   
   onCreatedOrder(){
-    let myDate = new Date();
-    myDate.setMonth(4)
-    myDate.setDate(28)
-    myDate.setFullYear(2022)
-    let newOrder = new Order(1,"customer1",myDate,[]);
-    newOrder.dateSigned = myDate;
-    newOrder.name = "Customer1";
-    this.orderService.createOrder(newOrder).subscribe(data=>{
-      this.order = data;
-      console.log(data);
-      
+        
+    this.orderService.createOrder(this.order).subscribe(orderData=>{
+      this.order = orderData;
+      console.log("onCreateOrder: " + orderData.id);
+      this.orderCreated.emit(orderData);    
     });
   }
+
 }
