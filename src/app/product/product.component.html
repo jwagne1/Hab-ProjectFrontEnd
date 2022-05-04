@@ -9,6 +9,6 @@
     <td>{{ product.id }}</td>
     <td>{{ product.name }}</td>
     <td>{{ product.price | currency }}</td>
-    <td><button>Add to Cart</button></td>
+    <td><button (click)="addProduct(product)">Add to Cart</button></td>
   </tr>
 </table>

@@ -1,15 +1,29 @@
+<app-product (productAdded)="productReceived($event)"></app-product>
+
+<br>
 <table>
     <tr>
+    <th>Id</th>
     <th>Product</th>
     <th>Price</th>
     <th>Quantity</th>
     <th>Subtotal</th>
 </tr>
-<tr>
-    <td>Product 1</td>
-    <td>10.50</td>
-    <td>1</td>
-    <td>10.50</td>
+<tr *ngFor="let product of products">
+    <td>{{product.id}}</td>
+    <td>{{product.name}}</td>
+    <td>{{product.price}}</td>  
+    <td><input type="number" name="quantity"></td>  
+    
 </tr>
 </table>
+<br>
+<app-order (orderCreated)="orderReceived($event)"></app-order>
 
+<ul *ngFor="let orderDetail of orderDetails">
+    <li>Data Below</li>
+    <li>{{orderDetail.id}}</li>
+    <li>{{orderDetail.product}}</li>
+    <li>{{orderDetail.productQty}}</li>
+    <li>{{orderDetail.totalPrice}}</li>
+</ul>
